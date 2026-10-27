@@ -9,31 +9,45 @@ Este repositório reúne projetos desenvolvidos de forma colaborativa durante o 
 | **Gemma4** | [Acessar projeto](./Gemma4/README.md) |
 | **Open Source** | [Acessar projeto](./open-source/README.md) |
 
-Cada projeto possui sua própria documentação, contendo informações técnicas, funcionalidades e instruções de utilização.
+Cada projeto possui sua própria documentação técnica.
 
 ## Equipe de Desenvolvimento
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/Arthur02-01">
-          <img src="https://github.com/Arthur02-01.png" width="100" alt="Arthur02-01"/>
-          <br><b>Arthur02-01</b>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/nicsan6">
-          <img src="https://github.com/nicsan6.png" width="100" alt="nicsan6"/>
-          <br><b>nicsan6</b>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/natanastutu-maker">
-          <img src="https://github.com/natanastutu-maker.png" width="100" alt="natanastutu-maker"/>
-          <br><b>natanastutu-maker</b>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/arturfaleirosdev">
-          <img src="https://
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Arthur02-01">
+        <img src="https://github.com/Arthur02-01.png" width="100" alt="Arthur02-01">
+        <br>
+        <b>Arthur02-01</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/nicsan6">
+        <img src="https://github.com/nicsan6.png" width="100" alt="nicsan6">
+        <br>
+        <b>nicsan6</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/natanastutu-maker">
+        <img src="https://github.com/natanastutu-maker.png" width="100" alt="natanastutu-maker">
+        <br>
+        <b>natanastutu-maker</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/arturfaleirosdev">
+        <img src="https://github.com/arturfaleirosdev.png" width="100" alt="arturfaleirosdev">
+        <br>
+        <b>arturfaleirosdev</b>
+      </a>
+    </td>
+  </tr>
+</table>
+
+## Sobre o Repositório
+
+O objetivo deste repositório é centralizar os projetos da equipe e promover a colaboração entre desenvolvedores.
+
+Para mais informações, consulte a documentação disponível em cada projeto.
