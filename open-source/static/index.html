@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CodeTutor AI</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div>
+
+        <h1>
+            &lt;/&gt; CodeTutor AI
+        </h1>
+
+        <p>
+            Aprenda a programar entendendo seus erros
+        </p>
+
+    </div>
+
+    <div
+        id="aiStatus"
+        class="status offline"
+    >
+        ● Verificando IA...
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <section class="card editor-card">
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Seu código
+                </h2>
+
+                <p>
+                    Cole o código que você quer entender.
+                </p>
+
+            </div>
+
+            <button
+                id="exampleButton"
+                class="secondary-button"
+            >
+                Carregar exemplo
+            </button>
+
+        </div>
+
+
+        <label for="language">
+            Linguagem
+        </label>
+
+        <select id="language">
+
+            <option value="python">
+                Python
+            </option>
+
+            <option value="javascript">
+                JavaScript
+            </option>
+
+            <option value="java">
+                Java
+            </option>
+
+            <option value="c">
+                C
+            </option>
+
+            <option value="cpp">
+                C++
+            </option>
+
+            <option value="csharp">
+                C#
+            </option>
+
+            <option value="php">
+                PHP
+            </option>
+
+            <option value="sql">
+                SQL
+            </option>
+
+            <option value="html">
+                HTML / CSS
+            </option>
+
+            <option value="outro">
+                Outro
+            </option>
+
+        </select>
+
+
+        <label for="code">
+            Código
+        </label>
+
+        <textarea
+            id="code"
+            spellcheck="false"
+            placeholder="Cole seu código aqui..."
+        ></textarea>
+
+
+        <div class="mode-title">
+            Como você quer aprender?
+        </div>
+
+
+        <div class="mode-grid">
+
+            <button
+                class="mode-button active"
+                data-mode="hint"
+            >
+                <span>💡</span>
+
+                <strong>
+                    Quero uma dica
+                </strong>
+
+                <small>
+                    Descubra sozinho
+                </small>
+
+            </button>
+
+
+            <button
+                class="mode-button"
+                data-mode="explain"
+            >
+                <span>📖</span>
+
+                <strong>
+                    Explique meu código
+                </strong>
+
+                <small>
+                    Entenda o código
+                </small>
+
+            </button>
+
+
+            <button
+                class="mode-button"
+                data-mode="debug"
+            >
+                <span>🐛</span>
+
+                <strong>
+                    Encontrar erro
+                </strong>
+
+                <small>
+                    Diagnóstico completo
+                </small>
+
+            </button>
+
+
+            <button
+                class="mode-button"
+                data-mode="improve"
+            >
+                <span>✨</span>
+
+                <strong>
+                    Melhorar código
+                </strong>
+
+                <small>
+                    Boas práticas
+                </small>
+
+            </button>
+
+        </div>
+
+
+        <button
+            id="analyzeButton"
+            class="primary-button"
+        >
+            Analisar com IA
+        </button>
+
+    </section>
+
+
+
+    <section class="card response-card">
+
+        <div class="response-header">
+
+            <div>
+
+                <h2>
+                    Resposta do CodeTutor
+                </h2>
+
+                <p id="modeDescription">
+                    Professor virtual executado localmente.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="response"
+            aria-live="polite"
+            class="response-content empty"
+        >
+
+            <div class="welcome">
+
+                <div class="welcome-icon">
+                    🧠
+                </div>
+
+                <h3>
+                    Pronto para aprender?
+                </h3>
+
+                <p>
+                    Cole seu código e escolha como deseja aprender.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="hintControls"
+            class="hint-controls hidden"
+        >
+
+            <p>
+                Ainda não conseguiu?
+            </p>
+
+            <div>
+
+                <button
+                    id="nextHintButton"
+                    class="secondary-button"
+                >
+                    Quero outra pista
+                </button>
+
+                <button
+                    id="solutionButton"
+                    class="danger-button hidden"
+                >
+                    Ver solução
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <span>
+        CodeTutor AI
+    </span>
+
+    <span>
+        •
+    </span>
+
+    <span>
+        Qwen2.5-Coder + Ollama
+    </span>
+
+    <span>
+        •
+    </span>
+
+    <span>
+        Open Source
+    </span>
+
+</footer>
+
+
+<script src="/static/app.js"></script>
+
+</body>
+
+</html>
