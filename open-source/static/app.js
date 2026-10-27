@@ -208,8 +208,8 @@ function markdownToHtml(markdown) {
     flush();
     return html.join("\n");
 }
-function addCopyButtons() {
-    responseElement.querySelectorAll("pre").forEach(block => {
+function addCopyButtons(container = responseElement) {
+    container.querySelectorAll("pre").forEach(block => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "copy-code-button";
@@ -226,6 +226,125 @@ function addCopyButtons() {
         block.appendChild(button);
     });
 }
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabPanels = document.querySelectorAll(".tab-panel");
+const repoForm = document.getElementById("repoForm");
+const repoUrlElement = document.getElementById("repoUrl");
+const repoButton = document.getElementById("repoButton");
+const repoSummary = document.getElementById("repoSummary");
+const repoFindings = document.getElementById("repoFindings");
+const repoReport = document.getElementById("repoReport");
+const repoSteps = ["Baixando repositório...", "Analisando arquivos Python...",
+    "Preparando diagnóstico...", "Consultando CodeTutor AI..."];
+let repoBusy = false;
+
+tabButtons.forEach(button => button.addEventListener("click", () => {
+    tabButtons.forEach(tab => {
+        const active = tab === button;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", String(active));
+    });
+    tabPanels.forEach(panel => panel.classList.toggle("hidden", panel.id !== button.dataset.tab));
+}));
+
+function validateRepoUrl(value) {
+    let url;
+    try { url = new URL(value.trim()); } catch { return false; }
+    const parts = url.pathname.split("/").filter(Boolean);
+    return url.protocol === "https:" && ["github.com", "www.github.com"].includes(url.hostname)
+        && !url.port && !url.username && parts.length >= 2;
+}
+function showRepoError(message) {
+    repoSummary.classList.add("hidden");
+    repoFindings.classList.add("hidden");
+    repoReport.className = "response-content";
+    repoReport.innerHTML = `<div class="error-message"><h3>Não foi possível analisar o repositório</h3><p>${escapeHtml(message)}</p></div>`;
+}
+function renderRepoSummary(data) {
+    const stats = [
+        ["Repositório", data.repository], ["Arquivos Python encontrados", data.files_found],
+        ["Arquivos analisados", data.files_analyzed], ["Erros de sintaxe", data.syntax_errors],
+        ["Alertas", data.warnings]
+    ];
+    repoSummary.innerHTML = stats.map(([label, value], index) =>
+        `<div class="stat${index === 0 ? " stat-wide" : ""}${label === "Erros de sintaxe" && value ? " stat-danger" : ""}">
+            <span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
+    repoSummary.classList.remove("hidden");
+
+    const items = [
+        ...data.syntax_error_details.map(item => ({...item, severity: "CRÍTICO"})),
+        ...data.warning_details
+    ];
+    const notes = data.notes.map(note => `<p class="repo-note">${escapeHtml(note)}</p>`).join("");
+    if (!items.length) {
+        repoFindings.innerHTML = `<h3>Análise estática</h3>${notes}<p class="repo-note">Nenhum alerta encontrado.</p>`;
+    } else {
+        const shown = items.slice(0, 40);
+        repoFindings.innerHTML = `<h3>Análise estática</h3>${notes}<ul>${shown.map(item => {
+            const severity = item.severity === "CRÍTICO" ? "critical" : item.severity === "IMPORTANTE" ? "important" : "minor";
+            const location = `${item.file}${item.line ? `:${item.line}` : ""}`;
+            return `<li><span class="badge ${severity}">${escapeHtml(item.severity)}</span>
+                <code>${escapeHtml(location)}</code> ${escapeHtml(item.message)}</li>`;
+        }).join("")}</ul>${items.length > shown.length
+            ? `<p class="repo-note">... e mais ${items.length - shown.length} alerta(s).</p>` : ""}`;
+    }
+    repoFindings.classList.remove("hidden");
+}
+function setRepoBusy(value) {
+    repoBusy = value;
+    repoButton.disabled = value;
+    repoUrlElement.readOnly = value;
+    repoReport.setAttribute("aria-busy", String(value));
+    repoButton.textContent = value ? "Analisando..." : "Analisar repositório";
+}
+
+repoForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (repoBusy) return;
+    const repositoryUrl = repoUrlElement.value.trim();
+    if (!validateRepoUrl(repositoryUrl)) {
+        showRepoError("URL inválida. Use o formato https://github.com/usuario/repositorio.");
+        return;
+    }
+    setRepoBusy(true);
+    repoSummary.classList.add("hidden");
+    repoFindings.classList.add("hidden");
+    repoReport.className = "response-content";
+    repoReport.innerHTML = '<div class="loading"><div class="spinner" aria-hidden="true"></div><p id="repoStep"></p></div>';
+    let step = 0;
+    const stepElement = document.getElementById("repoStep");
+    stepElement.textContent = repoSteps[0];
+    const stepTimer = setInterval(() => {
+        step = Math.min(step + 1, repoSteps.length - 1);
+        stepElement.textContent = repoSteps[step];
+    }, 3500);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 240000);
+    try {
+        const response = await fetch("/api/analyze-repository", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            signal: controller.signal,
+            body: JSON.stringify({repository_url: repositoryUrl})
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+            throw new Error(typeof data.detail === "string" ? data.detail : "URL inválida ou dados incorretos.");
+        }
+        if (typeof data.report !== "string" || !data.report.trim()) throw new Error("O modelo retornou um relatório vazio.");
+        renderRepoSummary(data);
+        repoReport.innerHTML = markdownToHtml(data.report);
+        addCopyButtons(repoReport);
+    } catch (error) {
+        showRepoError(error.name === "AbortError" ? "Tempo limite excedido. Tente um repositório menor ou tente novamente."
+            : error instanceof TypeError ? "Não foi possível acessar o servidor. Verifique a conexão." : error.message);
+    } finally {
+        clearInterval(stepTimer);
+        clearTimeout(timeout);
+        setRepoBusy(false);
+    }
+});
+
 setMode("hint");
 resetHintState();
 checkHealth();

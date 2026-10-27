@@ -554,6 +554,228 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 }
 
 
+.tabs {
+    width: min(1500px, 94%);
+
+    margin: 24px auto 0;
+
+    display: flex;
+
+    gap: 8px;
+}
+
+
+.tab-button {
+    background: var(--panel);
+
+    color: var(--muted);
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    padding: 10px 18px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.tab-button:hover {
+    color: var(--text);
+}
+
+
+.tab-button.active {
+    color: var(--text);
+
+    border-color: var(--primary);
+
+    background: rgba(113, 92, 255, 0.11);
+}
+
+
+.tabs + .container {
+    margin-top: 18px;
+}
+
+
+#githubPanel {
+    margin-top: 18px;
+}
+
+
+input[type="url"] {
+    width: 100%;
+
+    padding: 12px;
+
+    background: var(--panel-light);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+input[type="url"]:focus {
+    border-color: var(--primary);
+}
+
+
+.repo-summary {
+    margin-top: 24px;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+
+.stat {
+    background: var(--panel-light);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 13px 15px;
+}
+
+
+.stat-wide {
+    grid-column: 1 / -1;
+}
+
+
+.stat span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+.stat strong {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 20px;
+
+    overflow-wrap: anywhere;
+}
+
+
+.stat-danger strong {
+    color: var(--danger);
+}
+
+
+.repo-findings {
+    margin-top: 22px;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+.repo-findings h3 {
+    margin: 0 0 10px;
+
+    font-size: 15px;
+}
+
+
+.repo-findings ul {
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0;
+
+    max-height: 380px;
+
+    overflow-y: auto;
+}
+
+
+.repo-findings li {
+    padding: 8px 0;
+
+    border-bottom: 1px solid var(--border);
+
+    overflow-wrap: anywhere;
+}
+
+
+.repo-findings code {
+    background: #202638;
+
+    padding: 2px 5px;
+
+    border-radius: 5px;
+
+    font-family: Consolas, "Courier New", monospace;
+}
+
+
+.repo-note {
+    color: var(--muted);
+
+    margin: 0 0 8px;
+}
+
+
+.badge {
+    display: inline-block;
+
+    margin-right: 6px;
+
+    padding: 2px 7px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.badge.critical {
+    color: #ff8999;
+
+    background: rgba(255, 93, 115, 0.13);
+}
+
+
+.badge.important {
+    color: #ffc46b;
+
+    background: rgba(255, 180, 70, 0.13);
+}
+
+
+.badge.minor {
+    color: #9fb4ff;
+
+    background: rgba(113, 140, 255, 0.13);
+}
+
+
 footer {
     padding: 22px;
 
@@ -601,6 +823,16 @@ footer {
 
     .mode-grid {
         grid-template-columns: 1fr;
+    }
+
+
+    .repo-summary {
+        grid-template-columns: 1fr;
+    }
+
+
+    .tab-button {
+        flex: 1;
     }
 
 

@@ -45,7 +45,32 @@
 </header>
 
 
-<main class="container">
+<nav class="tabs" role="tablist" aria-label="Funcionalidades">
+
+    <button
+        class="tab-button active"
+        role="tab"
+        aria-selected="true"
+        aria-controls="codePanel"
+        data-tab="codePanel"
+    >
+        Analisar código
+    </button>
+
+    <button
+        class="tab-button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="githubPanel"
+        data-tab="githubPanel"
+    >
+        Analisar GitHub
+    </button>
+
+</nav>
+
+
+<main id="codePanel" class="container tab-panel" role="tabpanel">
 
     <section class="card editor-card">
 
@@ -289,6 +314,116 @@
                 >
                     Ver solução
                 </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<main id="githubPanel" class="container tab-panel hidden" role="tabpanel">
+
+    <section class="card editor-card">
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Analisar repositório GitHub
+                </h2>
+
+                <p>
+                    Projetos Python públicos. O código é lido como texto e nunca executado.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="repoForm" novalidate>
+
+            <label for="repoUrl">
+                URL do repositório
+            </label>
+
+            <input
+                id="repoUrl"
+                type="url"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="https://github.com/usuario/projeto"
+            >
+
+            <button
+                id="repoButton"
+                type="submit"
+                class="primary-button"
+            >
+                Analisar repositório
+            </button>
+
+        </form>
+
+
+        <div
+            id="repoSummary"
+            class="repo-summary hidden"
+            aria-live="polite"
+        ></div>
+
+
+        <div
+            id="repoFindings"
+            class="repo-findings hidden"
+        ></div>
+
+    </section>
+
+
+
+    <section class="card response-card">
+
+        <div class="response-header">
+
+            <div>
+
+                <h2>
+                    Relatório do CodeTutor
+                </h2>
+
+                <p>
+                    Análise estática + Qwen2.5-Coder local.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="repoReport"
+            aria-live="polite"
+            class="response-content empty"
+        >
+
+            <div class="welcome">
+
+                <div class="welcome-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Revise um projeto inteiro
+                </h3>
+
+                <p>
+                    Cole a URL de um repositório público e clique em Analisar repositório.
+                </p>
 
             </div>
 
